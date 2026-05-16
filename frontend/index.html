@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="tr" data-mood="neutral">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AuraBeat · Ruh Halini Müzikle Senkronla</title>
+    <meta name="description" content="Ruh halini anlat, Gemini sana özel şarkıları seçsin.">
+
+    <!-- Fontlar: Fraunces (display) + Manrope (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@300..800&display=swap">
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- AuraBeat tema -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="aura-body">
+
+    <!-- Dekoratif gradient mesh arka plan (mood'a göre renk değiştirir) -->
+    <div class="aura-bg" aria-hidden="true">
+        <span class="orb orb--1"></span>
+        <span class="orb orb--2"></span>
+        <span class="orb orb--3"></span>
+        <span class="aura-grain"></span>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg aura-nav">
+        <div class="container">
+            <a class="navbar-brand aura-brand" href="#top">
+                <span class="brand-mark">◐</span>
+                <span class="brand-text">AuraBeat</span>
+            </a>
+            <ul class="navbar-nav ms-auto d-none d-lg-flex">
+                <li class="nav-item"><a class="nav-link" href="#how">Nasıl çalışır</a></li>
+                <li class="nav-item"><a class="nav-link" href="#history">Geçmiş</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container py-5" id="top">
+
+        <!-- Hero / Input -->
+        <section class="aura-hero text-center mx-auto">
+            <p class="aura-eyebrow">Mood-Synchronized Music · v1.0</p>
+            <h1 class="aura-headline">
+                Ne <em>hissediyorsan</em>,<br>
+                seni o <span class="aura-mood-word">duyacak</span>.
+            </h1>
+            <p class="aura-subtitle">
+                Birkaç cümleyle anlat. AuraBeat ruh halini okusun, sana özel altı şarkı seçsin.
+            </p>
+
+            <form id="mood-form" class="aura-form" novalidate>
+                <label for="mood-input" class="visually-hidden">Ruh halini anlat</label>
+                <textarea
+                    id="mood-input"
+                    class="form-control aura-textarea"
+                    rows="4"
+                    maxlength="2000"
+                    placeholder="Bugün biraz dağınığım, kahve içerken yağmuru izlemek istiyorum…"
+                    aria-describedby="mood-counter mood-error"
+                    required></textarea>
+
+                <div class="aura-form-meta">
+                    <span id="mood-counter" class="aura-counter">0 / 2000</span>
+                    <button type="submit" id="mood-submit" class="btn aura-btn">
+                        <span class="aura-btn-label">Şarkımı Bul</span>
+                        <i class="bi bi-arrow-right aura-btn-icon"></i>
+                    </button>
+                </div>
+
+                <p id="mood-error" class="aura-error" role="alert" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <!-- Loader -->
+        <section id="loader" class="aura-loader" hidden aria-live="polite">
+            <div class="aura-loader-bars" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <p class="aura-loader-text">Ruh halin analiz ediliyor…</p>
+        </section>
+
+        <!-- Sonuçlar -->
+        <section id="results" class="aura-results" hidden>
+            <header class="aura-results-header">
+                <p class="aura-eyebrow">Tespit edilen ruh hali</p>
+                <h2 id="detected-mood" class="aura-mood-tag">—</h2>
+                <p id="mood-context" class="aura-mood-context"></p>
+            </header>
+            <div id="cards-container" class="row g-4"></div>
+        </section>
+
+        <!-- Geçmiş -->
+        <section id="history" class="aura-history">
+            <header class="aura-section-header">
+                <h2>Geçmiş Analizler</h2>
+                <button id="refresh-history" class="btn btn-sm aura-btn-ghost" type="button">
+                    <i class="bi bi-arrow-clockwise"></i> Yenile
+                </button>
+            </header>
+            <div id="history-list" class="aura-history-list">
+                <p class="aura-history-empty">Henüz analiz yok. İlkini sen yaz.</p>
+            </div>
+        </section>
+
+        <!-- Nasıl çalışır -->
+        <section id="how" class="aura-how">
+            <h2>Nasıl çalışır?</h2>
+            <ol class="aura-steps">
+                <li><span>01</span> Ruh halini serbest metin olarak yaz.</li>
+                <li><span>02</span> Gemini metni okur, ruh halini etiketler.</li>
+                <li><span>03</span> Sana özel altı şarkıyı, "neden" gerekçesiyle sunar.</li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="aura-footer">
+        <div class="container d-flex justify-content-between flex-wrap gap-2">
+            <span>© 2026 AuraBeat</span>
+            <span>Django · DRF · Gemini · PostgreSQL</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AuraBeat modülleri (Separation of Concerns) -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>

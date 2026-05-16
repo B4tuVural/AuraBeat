@@ -1,0 +1,61 @@
+# =============================================================
+# AuraBeat — Docker Compose
+# ---------------------------------------------------------
+# Sadece PostgreSQL 17 Docker'da çalışır.
+# Django sunucusu yerel makinede (host) çalışmaya devam eder.
+# =============================================================
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: aurabeat-pg
+    restart: unless-stopped
+
+    # ---- Ortam değişkenleri ----
+    environment:
+      POSTGRES_DB:       aurabeat
+      POSTGRES_USER:     aurabeat
+      POSTGRES_PASSWORD: aurabeat
+      # Türkçe karakter desteği ve doğru sıralama (collation) için
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=tr_TR.UTF-8"
+      LANG: tr_TR.UTF-8
+      LC_ALL: tr_TR.UTF-8
+
+    # ---- Port ----
+    ports:
+      - "5432:5432"
+
+    # ---- Kalıcı veri ----
+    volumes:
+      # Named volume: container silinse bile veriler korunur
+      - aurabeat-pgdata:/var/lib/postgresql/data
+      # Init script'leri: container İLK oluşturulduğunda çalışır
+      - ./docker/pg-init:/docker-entrypoint-initdb.d:ro
+
+    # ---- Sağlık kontrolü ----
+    # Django'nun "connection refused" hatası almaması için
+    # container'ın gerçekten bağlantı kabul ettiğinden emin olur.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aurabeat -d aurabeat"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+    # ---- Performans ayarları ----
+    # Küçük / geliştirme ortamı için optimize edilmiş parametreler.
+    # Üretimde bu değerler sunucu RAM'ine göre ayarlanmalıdır.
+    command: >
+      postgres
+        -c shared_buffers=128MB
+        -c work_mem=8MB
+        -c maintenance_work_mem=64MB
+        -c effective_cache_size=256MB
+        -c max_connections=50
+        -c log_statement=mod
+        -c log_min_duration_statement=200
+        -c timezone=Europe/Istanbul
+
+volumes:
+  aurabeat-pgdata:
+    name: aurabeat-pgdata
