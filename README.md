@@ -75,7 +75,9 @@ aurabeat/
         ├── events.js          # — sadece listener
         └── main.js            # — bootstrap
 ```
-
+---
+# Yüksek Seviye Diyagramı
+![YSD](geliştirme-süreci/AuraBeat-Yapısal-Diagram.png)
 ---
 
 ## ✨ Frontend Özellikleri
