@@ -86,10 +86,11 @@ Aşağıda önce her iki platformda da ortak olan **gereksinimler**, ardından
 
 | Araç           | Ne için                | Nereden                                              |
 | :------------- | :--------------------- | :--------------------------------------------------- |
-| **Docker Desktop** | PostgreSQL 17 container| https://www.docker.com/products/docker-desktop   |
-| **Python 3.10+**   | Django backend         | https://www.python.org/downloads/                |
-| **Git** (opsiyonel) | Repo klonlama         | https://git-scm.com/downloads                    |
-| **Gemini API Key**  | AI analizi            | https://aistudio.google.com/app/apikey           |
+| **Docker Desktop**  | PostgreSQL 17 container| https://www.docker.com/products/docker-desktop  |
+| **Python 3.10+**    | Django backend         | https://www.python.org/downloads/               |
+| **Git** (opsiyonel) | Repo klonlama          | https://git-scm.com/downloads                   |
+| **Gemini API Key**  | AI analizi             | https://aistudio.google.com/app/apikey          |
+| **Spotify API Key** | Uygulama içi öneri     | https://https://developer.spotify.com           |
 
 > **Docker Desktop kurulumu:** Windows'ta kurulum sırasında **"Use WSL 2"** seçeneğinin
 > işaretli olduğundan emin ol. Kurulumdan sonra bilgisayarı yeniden başlat. Görev çubuğunda
