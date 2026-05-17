@@ -11,8 +11,8 @@ ruh haline uygun altı şarkıyı **"neden"** gerekçesiyle birlikte sunan tam y
 
 | Katman     | Teknoloji                                                                   |
 | :--------- | :-------------------------------------------------------------------------- |
-| Backend    | **Django 5.2 LTS** (Nisan 2028'e kadar güvenlik desteği) + DRF 3.16        |
-| Veritabanı | **PostgreSQL 17** (Docker Compose ile — sıfır kurulum)                      |
+| Backend    | **Django 5.2 LTS**  +  DRF 3.16                                             |
+| Veritabanı | **PostgreSQL 17** (Docker ortamında)                                        |
 | DB Sürücü  | **psycopg 3** (Django 5.2'nin tercih ettiği modern sürücü)                  |
 | AI         | google-generativeai (Gemini 2.5 Flash)                                      |
 | Frontend   | Vanilla JS (ES Modules) + Bootstrap 5.3 + Fraunces & Manrope fontları       |
@@ -20,25 +20,60 @@ ruh haline uygun altı şarkıyı **"neden"** gerekçesiyle birlikte sunan tam y
 
 ---
 
-## 📐 Mimari Özet
+## 🗂️ Proje Yapısı
 
 ```
-  Frontend (Vanilla JS)
-       │  fetch · JSON
-  ─────▼───────────────
-  views.py         ← Thin Controller (sadece HTTP I/O)
-  serializers.py   ← Sadece doğrulama / şekillendirme
-  services/        ← İş mantığı (CUD + dış servis çağrıları)
-    mood_service.py      ← Orkestrasyon (constructor injection)
-    gemini_service.py    ← implements BaseAIService
-    spotify_service.py   ← implements BaseMusicService
-  selectors/       ← Sadece okuma sorguları
-  interfaces/      ← SOLID DIP — soyut sözleşmeler (ABC)
-  models.py        ← Thin Model (şema + saf @property)
-       │  psycopg 3
-  ─────▼───────────────
-  PostgreSQL 17 (Docker)
+aurabeat/
+├── docker-compose.yml         # ← PostgreSQL 17 Docker tanımı
+├── docker/
+│   └── pg-init/
+│       └── 01-init.sql        # ← İlk çalıştırmada otomatik çalışır
+├── manage.py
+├── requirements.txt
+├── .env.example
+│
+├── aurabeat/                  # Django proje konfigürasyonu
+│   ├── settings.py            # ← Docker DB ayarları burada
+│   ├── urls.py
+│   └── wsgi.py / asgi.py
+│
+├── api/
+│   ├── interfaces/            # SOLID DIP — soyut sözleşmeler
+│   │   ├── base_ai_service.py
+│   │   └── base_music_service.py
+│   ├── services/              # İş mantığı (CUD + external)
+│   │   ├── gemini_service.py
+│   │   ├── spotify_service.py
+│   │   └── mood_service.py
+│   ├── selectors/             # Read-only sorgu mantığı
+│   │   └── mood_selector.py
+│   ├── models.py              # Thin Models
+│   ├── serializers.py         # Validation + shape
+│   ├── views.py               # Thin Controllers
+│   ├── urls.py
+│   └── admin.py
+│
+└── frontend/                  # Bootstrap 5 + Vanilla JS
+    ├── index.html
+    ├── css/style.css          # Mood-reactive tema
+    └── js/                    # Separation of Concerns
+        ├── api.js             # — sadece fetch
+        ├── ui.js              # — sadece DOM
+        ├── events.js          # — sadece listener
+        └── main.js            # — bootstrap
 ```
+
+---
+
+## ✨ Frontend Özellikleri
+
+- **Mood-reactive tema** — tespit edilen ruh haline göre tüm palet (mutlu → kehribar, hüzünlü → mavi, sakin → su yeşili, vb.) yumuşak geçişlerle değişir.
+- **Erişilebilir form** — ARIA live region, klavye odaklı odak halkası, `prefers-reduced-motion` desteği.
+- **Sıralı fade-in** — kartlar 90 ms aralıklarla sahnelenir.
+- **Sayaç & dostane hata mesajları** — anlık geri bildirim.
+- **Geçmiş tıklanabilir** — her satır o anki analizi yeniden açar.
+
+---
 
 ---
 
@@ -51,10 +86,10 @@ Aşağıda önce her iki platformda da ortak olan **gereksinimler**, ardından
 
 | Araç           | Ne için                | Nereden                                              |
 | :------------- | :--------------------- | :--------------------------------------------------- |
-| **Docker Desktop** | PostgreSQL 17 container | https://www.docker.com/products/docker-desktop       |
-| **Python 3.10+**   | Django backend         | https://www.python.org/downloads/                    |
-| **Git** (opsiyonel) | Repo klonlama         | https://git-scm.com/downloads                        |
-| **Gemini API Key**  | AI analizi             | https://aistudio.google.com/app/apikey               |
+| **Docker Desktop** | PostgreSQL 17 container| https://www.docker.com/products/docker-desktop   |
+| **Python 3.10+**   | Django backend         | https://www.python.org/downloads/                |
+| **Git** (opsiyonel) | Repo klonlama         | https://git-scm.com/downloads                    |
+| **Gemini API Key**  | AI analizi            | https://aistudio.google.com/app/apikey           |
 
 > **Docker Desktop kurulumu:** Windows'ta kurulum sırasında **"Use WSL 2"** seçeneğinin
 > işaretli olduğundan emin ol. Kurulumdan sonra bilgisayarı yeniden başlat. Görev çubuğunda
@@ -108,14 +143,13 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-#### Adım 4 — `.env` dosyasını oluştur
+#### Adım 4 — `.env` dosyasını set-credentials.py scripti ile oluşturma
 
 ```powershell
-copy .env.example .env
-notepad .env
+python set-credentials.py
 ```
 
-Notepad açılacak. **`GEMINI_API_KEY=`** satırına API anahtarını yapıştır, kaydet ve kapat.
+Script çalıştırıldığında terminal açılacak. **`GEMINI_API_KEY=`** zorunlu olacak şekilde **`SPOTIFY_CLIENT_ID=`** ve **`SPOTIFY_CLIENT_SECRET=`** gerekli API anahtarlarını yapıştırın, kaydet ve kapat. Script **`.env.example`** dosyasından **`.env`** ortam dosyanızı üretecektir
 Diğer DB değerleri Docker Compose ile birebir eşleştiği için değiştirmeye gerek yok.
 
 #### Adım 5 — Migrate ve sunucuyu başlat
@@ -343,62 +377,6 @@ curl -X POST http://localhost:8000/api/mood/analyze/ ^
 }
 ```
 
----
-
-## 🗂️ Proje Yapısı
-
-```
-aurabeat/
-├── docker-compose.yml         # ← PostgreSQL 17 Docker tanımı
-├── docker/
-│   └── pg-init/
-│       └── 01-init.sql        # ← İlk çalıştırmada otomatik çalışır
-├── manage.py
-├── requirements.txt
-├── .env.example
-│
-├── aurabeat/                  # Django proje konfigürasyonu
-│   ├── settings.py            # ← Docker DB ayarları burada
-│   ├── urls.py
-│   └── wsgi.py / asgi.py
-│
-├── api/
-│   ├── interfaces/            # SOLID DIP — soyut sözleşmeler
-│   │   ├── base_ai_service.py
-│   │   └── base_music_service.py
-│   ├── services/              # İş mantığı (CUD + external)
-│   │   ├── gemini_service.py
-│   │   ├── spotify_service.py
-│   │   └── mood_service.py
-│   ├── selectors/             # Read-only sorgu mantığı
-│   │   └── mood_selector.py
-│   ├── models.py              # Thin Models
-│   ├── serializers.py         # Validation + shape
-│   ├── views.py               # Thin Controllers
-│   ├── urls.py
-│   └── admin.py
-│
-└── frontend/                  # Bootstrap 5 + Vanilla JS
-    ├── index.html
-    ├── css/style.css          # Mood-reactive tema
-    └── js/                    # Separation of Concerns
-        ├── api.js             # — sadece fetch
-        ├── ui.js              # — sadece DOM
-        ├── events.js          # — sadece listener
-        └── main.js            # — bootstrap
-```
-
----
-
-## ✨ Frontend Özellikleri
-
-- **Mood-reactive tema** — tespit edilen ruh haline göre tüm palet (mutlu → kehribar, hüzünlü → mavi, sakin → su yeşili, vb.) yumuşak geçişlerle değişir.
-- **Erişilebilir form** — ARIA live region, klavye odaklı odak halkası, `prefers-reduced-motion` desteği.
-- **Sıralı fade-in** — kartlar 90 ms aralıklarla sahnelenir.
-- **Sayaç & dostane hata mesajları** — anlık geri bildirim.
-- **Geçmiş tıklanabilir** — her satır o anki analizi yeniden açar.
-
----
 
 ## 🧪 Geliştirme Notları
 
