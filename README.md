@@ -14,7 +14,7 @@ ruh haline uygun altı şarkıyı **"neden"** gerekçesiyle birlikte sunan tam y
 
 🎥 [Demo videosunu YouTube'da izle](https://www.youtube.com/watch?v=ooL79gf3p-c)
 
----
+
 ---
 ## 🧰 Teknoloji Yığını
 
