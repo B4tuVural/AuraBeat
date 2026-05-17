@@ -37,10 +37,10 @@ Bu promptla birlikte Claude'a projeyi tanımlayan dört spesifikasyon dosyası y
 
 | Dosya | İçerik |
 |---|---|
-| [`architecture-overview.md`](docs/architecture-overview.md) | Genel mimari, teknoloji yığını ve API tasarım standartları |
-| [`backend-specs.md`](docs/backend-specs.md) | SOLID prensipleri, katmanlı klasör yapısı, servis/selector mimarisi |
-| [`database-specs.md`](docs/database-specs.md) | DDD tabanlı veri modelleri (`MoodEntry`, `SongRecommendation`), PostgreSQL indeks yapısı |
-| [`frontend-specs.md`](docs/frontend-specs.md) | UI/UX hedefleri, sayfa modülleri, Vanilla JS API haberleşme mantığı |
+| [`architecture-overview.md`](geliştirme-süreci/first-prompt-md-docs/architecture-overview.md) | Genel mimari, teknoloji yığını ve API tasarım standartları |
+| [`backend-specs.md`](geliştirme-süreci/first-prompt-md-docs/backend-specs.md) | SOLID prensipleri, katmanlı klasör yapısı, servis/selector mimarisi |
+| [`database-specs.md`](geliştirme-süreci/first-prompt-md-docs/database-specs.md) | DDD tabanlı veri modelleri (`MoodEntry`, `SongRecommendation`), PostgreSQL indeks yapısı |
+| [`frontend-specs.md`](geliştirme-süreci/first-prompt-md-docs/frontend-specs.md) | UI/UX hedefleri, sayfa modülleri, Vanilla JS API haberleşme mantığı |
 
 #### 📥 Önemli Çıktı
 
