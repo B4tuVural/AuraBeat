@@ -102,12 +102,10 @@ Aşağıda önce her iki platformda da ortak olan **gereksinimler**, ardından
 
 Tüm komutlar **PowerShell** (veya **Windows Terminal**) içindir.
 
-#### Adım 1 — Projeyi aç
+#### Adım 1 — Projeyi clonela
 
 ```powershell
-cd C:\Users\<kullanici>\Desktop     # ya da istediğin klasör
-# Eğer tar.gz indirdiysen:
-tar -xzf aurabeat-project.tar.gz
+git clone https://github.com/B4tuVural/AuraBeat
 cd aurabeat
 ```
 
@@ -179,7 +177,7 @@ Tarayıcıdan **http://localhost:8080** adresine git. AuraBeat hazır.
 #### Adım 1 — Projeyi aç
 
 ```bash
-tar -xzf aurabeat-project.tar.gz
+git clone https://github.com/B4tuVural/AuraBeat
 cd aurabeat
 ```
 
@@ -205,9 +203,7 @@ pip install -r requirements.txt
 #### Adım 4 — `.env` dosyasını oluştur
 
 ```bash
-cp .env.example .env
-nano .env          # veya vim, code, vs.
-# GEMINI_API_KEY satırına anahtarını yapıştır, kaydet.
+python set-credentials.py
 ```
 
 #### Adım 5 — Migrate ve sunucuyu başlat
