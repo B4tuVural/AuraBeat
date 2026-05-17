@@ -6,7 +6,16 @@ AuraBeat, kullanıcının serbest metin ile yazdığı duygusal bağlamı **Gemi
 ruh haline uygun altı şarkıyı **"neden"** gerekçesiyle birlikte sunan tam yığın bir uygulamadır.
 
 ---
+## 🎬 Demo
 
+> AuraBeat'i çalışırken görmek istiyorsan aşağıdaki videoyu izleyebilirsin.
+> Ruh halini metin olarak girmen, Gemini'nin analiz etmesi ve sana özel şarkıların
+> mood-reactive bir tema eşliğinde sıralanması — tüm akış canlı kayıtta.
+
+🎥 [Demo videosunu YouTube'da izle](https://www.youtube.com/watch?v=ooL79gf3p-c)
+
+---
+---
 ## 🧰 Teknoloji Yığını
 
 | Katman     | Teknoloji                                                                   |
