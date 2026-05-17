@@ -27,11 +27,13 @@ ruh haline uygun altı şarkıyı **"neden"** gerekçesiyle birlikte sunan tam y
 | Frontend   | Vanilla JS (ES Modules) + Bootstrap 5.3 + Fraunces & Manrope fontları       |
 | Python     | 3.10+ (önerilen: 3.12 veya 3.13)                                           |
 
-> 📓 Bu projenin Claude ile nasıl geliştirildiğini merak ediyorsan → [`aurabeat_gelistirme_gunlugu.md`](geliştirme-süreci/aurabeat_gelistirme_gunlugu.md)
+> 📓 Bu projenin Claude ile nasıl geliştirildiğini merak ediyorsan  [`aurabeat_gelistirme_gunlugu.md`](geliştirme-süreci/aurabeat_gelistirme_gunlugu.md)
 > Hangi promptların kullanıldığını, hangi modelin hangi kararı aldığını ve sürecin nasıl ilerlediğini adım adım belgeler.
 ---
 
 ## 🗂️ Proje Yapısı
+
+Uygulama mimarisini detaylıca açıklandığı rehber → [`AuraBeat-Mimari-İnceleme`](architecture-overview.md)
 
 ```
 aurabeat/
